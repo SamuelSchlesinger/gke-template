@@ -1,0 +1,69 @@
+cabal-version:       >=1.10
+name:                server
+version:             0.1.0.0
+license-file:        LICENSE
+author:              Samuel Schlesinger
+maintainer:          sgschlesinger@gmail.com
+build-type:          Simple
+extra-source-files:  CHANGELOG.md
+
+executable server
+  hs-source-dirs:      main
+  main-is:             Main.hs
+  build-depends:       base >=4.14 && <4.15,
+                       server
+  default-language:    Haskell2010
+  ghc-options:         -O2 -threaded -rtsopts "-with-rtsopts=-N -T"
+  other-extensions:    TypeApplications
+
+executable migrate
+  hs-source-dirs:      migrate
+  main-is:             Migrate.hs
+  build-depends:       base >=4.14 && <4.15,
+                       server
+  default-language:    Haskell2010
+  ghc-options:         -O2 -threaded -rtsopts "-with-rtsopts=-N -T"
+  other-extensions:    TypeApplications
+
+executable fuzzer
+  hs-source-dirs:      fuzzer
+  main-is:             Fuzzer.hs
+  build-depends:       base >=4.14 && <4.15,
+                       server
+  default-language:    Haskell2010
+  ghc-options:         -O2 -threaded -rtsopts "-with-rtsopts=-N -T"
+  other-extensions:    TypeApplications
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Server,
+                       Server.Persistence.Postgres,
+                       Server.Persistence.Redis,
+                       Server.Cryptography.RSA,
+                       Server.Config,
+                       Server.API,
+                       Server.Prelude,
+                       Client
+  build-depends:       base >=4.14 && <4.15,
+                       wai >=3.2,
+                       warp >=3.3,
+                       servant >=0.18,  
+                       servant-server >=0.18,
+                       http-api-data >=0.4,
+                       aeson >= 1.5,
+                       squeal-postgresql >=0.6,
+                       text >= 1.2,
+                       bytestring >=0.10,
+                       mtl >=2.2,
+                       postgresql-libpq >=0.9,
+                       resource-pool >=0.2,
+                       generics-sop >=0.5,
+                       hedis >=0.12,
+                       exceptions >=0.10,
+                       servant-client >=0.18,
+                       http-client >=0.6,
+                       time >=1.8,
+                       cryptonite >=0.27,
+                       memory >=0.15
+  default-language:    Haskell2010
+  other-extensions:    TypeApplications

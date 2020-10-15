@@ -1,0 +1,46 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: postgres
+  labels:
+    app: learning
+spec:
+  serviceName: postgres
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: learning
+  template:
+    metadata:
+      labels:
+        app: learning
+    spec:
+      terminationGracePeriodSeconds: 380
+      volumes:
+      - name: postgres-conf
+        configMap:
+          name: postgres-config
+          items:
+          - key: postgres.conf
+            path: postgres.conf
+      - name: muh-data
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+      containers:
+      - name: postgres
+        image: postgres:latest
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /data/db
+            name: muh-data
+          - mountPath: /postgres-conf
+            name: postgres-conf
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: password

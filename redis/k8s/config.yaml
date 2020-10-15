@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  labels:
+    app: learning
+data:
+  redisPassword: "password"
+  redis.conf: |
+    requirepass "password"
+    port 6379

@@ -1,0 +1,34 @@
+cabal-version:       >=1.10
+name:                server-builder
+version:             0.1.0.0
+license-file:        LICENSE
+author:              Samuel Schlesinger
+maintainer:          sgschlesinger@gmail.com
+build-type:          Simple
+extra-source-files:  CHANGELOG.md
+
+executable server
+  main-is:             Main.hs
+  build-depends:       base >=4.14 && <4.15,
+                       wai >=3.2,
+                       warp >=3.3,
+                       servant >=0.18,  
+                       servant-server >=0.18,
+                       http-api-data >=0.4,
+                       aeson >= 1.5,
+                       squeal-postgresql >=0.6,
+                       text >= 1.2,
+                       bytestring >=0.10,
+                       http-types >=0.12,
+                       stm >=2.5,
+                       transformers >=0.5,
+                       mtl >=2.2,
+                       hedis >=0.12,
+                       exceptions >=0.10,
+                       servant-client >=0.18,
+                       http-client >=0.6,
+                       time >=1.8,
+                       cryptonite >=0.27
+  default-language:    Haskell2010
+  ghc-options:         -O2 -threaded -rtsopts "-with-rtsopts=-N -T"
+  other-extensions:    TypeApplications

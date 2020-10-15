@@ -1,0 +1,43 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: redis
+  labels:
+    app: learning
+spec:
+  serviceName: redis
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: learning
+  template:
+    metadata:
+      labels:
+        app: learning
+    spec:
+      terminationGracePeriodSeconds: 380
+      volumes:
+      - name: redis-conf
+        configMap:
+          name: redis-config
+          items:
+          - key: redis.conf
+            path: redis.conf
+      - name: muh-data
+        persistentVolumeClaim:
+          claimName: redis-pvc
+      containers:
+      - name: redis
+        image: redis:latest
+        imagePullPolicy: Always
+        command:
+          - redis-server
+          - "/redis.conf/redis.conf"
+        volumeMounts:
+          - mountPath: /redis-master-data
+            name: muh-data
+          - mountPath: /redis.conf
+            name: redis-conf
+        ports:
+        - containerPort: 6379

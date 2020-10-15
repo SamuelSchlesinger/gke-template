@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  selector:
+    matchLabels:
+      service: server
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        service: server
+    spec:
+      containers:
+        - name: server
+          image: "us.gcr.io/haskell-learn/server:latest"
+          ports:
+          - containerPort: 9000
+          envFrom:
+          - configMapRef:
+              name: server-config
